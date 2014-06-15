@@ -169,7 +169,22 @@ legend("topright", c("Weekday", "Weekend"), col = c("black", "red"), lty = 1)
 # xlab='Interval', ylab='Number of Steps')
 ```
 Although the maximum average number of steps during weekdays is higher than that during the weekend, there seems to be on average more activities during the weekend. This is due to the fact that during weekdays, the activities centre in the early morning and in the evening (before having dinner) due to the work, but during the weekend, they distribute during the whole day due to the free time that have.
+```{r}
+# Use the lattice Package
 
+# Add a column to the data frames that include weekdays and weekend days
+dfWD$wDays <- rep("Weekday", nrow(dfWD))
+dfWE$wDays <- rep("Weekend", nrow(dfWD))
+# Rename column names to match
+colnames(dfWD) <- c("Steps", "Interval", "wDays")
+colnames(dfWE) <- c("Steps", "Interval", "wDays")
+# rbind the dataframes
+df <- rbind(dfWD, dfWE)
+# Convert wDays column into a factor
+df$wDays <- factor(df$wDays)
 
-
+# Use lattice library to plot
+library(lattice)
+xyplot(Steps ~ Interval | wDays, data = df, type = "l", layout = c(1, 2), ylab = "Average Number of Steps")
+```
 
